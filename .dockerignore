@@ -1,0 +1,5 @@
+.dockerignore
+Dockerfile.ruby
+Dockerfile.node
+docker-compose.yml
+client/node_modules
