@@ -1,48 +1,48 @@
 version: "3"
 services:
-  # db:
-  #   image: postgres:alpine
-  #   container_name: itcrowd_database
-  #   environment:
-  #     - POSTGRES_PASSWORD=postgres
-  #   ports:
-  #     - 5432:5432
-  #   volumes:
-  #     - postgres:/var/lib/postgresql/data
+  db:
+    image: postgres:alpine
+    container_name: itcrowd_database
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
-  # server:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.ruby
-  #   image: itcrowd_server:dev
-  #   env_file: .env
-  #   command: bundle exec rails s -b 0.0.0.0
-  #   volumes:
-  #     - ./server:/var/www/server
-  #   ports:
-  #     - 3000:3000
-  #   links:
-  #     - db
-  #   depends_on:
-  #     - db
-
-  client:
-    stdin_open: true
-    container_name: itcrowd_client
+  server:
     build:
       context: .
-      dockerfile: Dockerfile.node
-    image: itcrowd_client:dev
+      dockerfile: Dockerfile.ruby
+    image: itcrowd_server:dev
     env_file: .env
-    command: yarn start
+    command: ./docker-rails.sh
     volumes:
-      - ./client:/var/www/client
+      - ./server:/var/www/server
     ports:
-      - 80:3000
-    # links:
-    #   - server
-    # depends_on:
-    #   - server
+      - 3000:3000
+    links:
+      - db
+    depends_on:
+      - db
+
+  # client:
+  #   stdin_open: true
+  #   container_name: itcrowd_client
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.node
+  #   image: itcrowd_client:dev
+  #   env_file: .env
+  #   command: yarn start
+  #   volumes:
+  #     - ./client:/var/www/client
+  #   ports:
+  #     - 80:3000
+  #   links:
+  #     - server
+  #   depends_on:
+  #     - server
 
 volumes:
   postgres:
