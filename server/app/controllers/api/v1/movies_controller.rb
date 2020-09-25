@@ -1,4 +1,5 @@
 class Api::V1::MoviesController < ApplicationController
+  before_action :is_authenticaded, only: [:create, :update, :destroy]
   before_action :set_movie, only: [:show, :update, :destroy]
 
   # @route GET /api/v1/movies (api_v1_movies)

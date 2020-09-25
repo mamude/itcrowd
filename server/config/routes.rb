@@ -16,6 +16,8 @@ Rails.application.routes.draw do
           end
         end
       end
+      post '/authentication', to: 'sessions#create'
+      delete '/logout', to: 'sessions#destroy'
     end
   end
 end

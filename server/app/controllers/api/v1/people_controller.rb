@@ -1,4 +1,5 @@
 class Api::V1::PeopleController < ApplicationController
+  before_action :is_authenticaded, only: [:update, :destroy, :add_actor, :add_director, :add_producer]
   before_action :set_movie, only: [:all_by_movie, :add_actor, :add_producer, :add_director]
   before_action :set_person, only: [:show, :update, :destroy]
 
