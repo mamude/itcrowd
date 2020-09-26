@@ -1,1 +1,1 @@
-json.movies @movies, :title, :release_year
+json.movies @movies

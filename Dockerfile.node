@@ -1,6 +1,6 @@
 FROM node:12-alpine3.12
 
-RUN apk update && apk upgrade && apk add --update --no-cache tzdata zsh git
+RUN apk update && apk upgrade && apk add --update --no-cache openrc tzdata zsh git nginx
 RUN CI=true
 
 WORKDIR /var/www/client
@@ -9,4 +9,4 @@ ENV PATH=/var/www/client/node_modules/.bin:$PATH
 COPY ./client/package.json ./
 COPY . ./
 
-EXPOSE 80
+EXPOSE 80 8080

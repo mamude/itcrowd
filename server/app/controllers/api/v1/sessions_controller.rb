@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       token = encode_token({user_id: user.id, username: user.username})
       user.update_attributes(token: token)
-      render json: { message: "Welcome, #{user.username}", token: token }
+      render json: { message: "Welcome, #{user.username}", username: user.username, token: token }
     else
       render json: { error: 'Invalid username or password'}, status: :bad_request
     end

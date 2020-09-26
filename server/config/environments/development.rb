@@ -52,4 +52,6 @@ Rails.application.configure do
 
   # Docker hot reload
   config.file_watcher = ActiveSupport::FileUpdateChecker
+
+  config.hosts.clear
 end
