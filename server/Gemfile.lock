@@ -68,7 +68,14 @@ GEM
       rails (> 2.0)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
+    database_cleaner (1.8.5)
+    database_cleaner-active_record (1.8.0)
+      activerecord
+      database_cleaner (~> 1.8.0)
     erubi (1.9.0)
+    faker (2.14.0)
+      i18n (>= 1.6, < 2)
+    ffaker (2.17.0)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -163,6 +170,9 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   chusaku
+  database_cleaner-active_record
+  faker
+  ffaker
   jbuilder (~> 2.7)
   jwt
   listen (~> 3.2)

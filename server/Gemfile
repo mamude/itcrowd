@@ -22,4 +22,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'annotate'
   gem 'chusaku'
+  gem 'faker'
+  gem 'ffaker'
+  gem 'database_cleaner-active_record'
 end
