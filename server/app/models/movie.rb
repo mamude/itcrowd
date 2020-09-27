@@ -9,6 +9,8 @@
 #  updated_at   :datetime         not null
 #
 class Movie < ApplicationRecord
+  # concerns
+  include MovieConcern
   # pagination
   paginates_per 50
   # association
@@ -28,4 +30,10 @@ class Movie < ApplicationRecord
     where('lower(title) ilike ?', "#{search}%")
     .order('title ASC')
   }
+
+  def as_json(options = {})
+    super.tap do |json|
+      json[:roman_numerals] = roman(self.release_year)
+    end
+  end
 end

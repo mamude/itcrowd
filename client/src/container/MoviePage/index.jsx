@@ -84,7 +84,7 @@ function MoviePage() {
               <TableCell>Id</TableCell>
               <TableCell>Ttile</TableCell>
               <TableCell align="right">Release Year</TableCell>
-              <TableCell align="right">Release Yarn (Roman Numeral)</TableCell>
+              <TableCell align="right">Release Year (Roman Numerals)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -97,7 +97,7 @@ function MoviePage() {
                   <Link to={`/movies/${row.id}`}>{row.title}</Link>
                 </TableCell>
                 <TableCell align="right">{row.release_year}</TableCell>
-                <TableCell align="right">{row.release_year}</TableCell>
+                <TableCell align="right">{row.roman_numerals}</TableCell>
               </TableRow>
             ))}
           </TableBody>

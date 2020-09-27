@@ -130,7 +130,7 @@ function MovieDetailPage() {
                 Release Year (Roman Number)
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.movie.release_year}
+                {data.movie.roman_numerals}
               </Typography>
             </Grid>
           </Grid>
