@@ -10,6 +10,10 @@ export function getToken() {
   return ls.get('token')
 }
 
+export function clearToken() {
+  ls.removeAll()
+}
+
 export function setUserInfo(state) {
   ls.set('userInfo', state)
 }

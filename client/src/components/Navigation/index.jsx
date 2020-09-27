@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import LoginPage from '../../container/LoginPage'
+import LogoutPage from '../../container/LogoutPage'
 import PersonPage from '../../container/PersonPage'
 import MoviePage from '../../container/MoviePage'
 import MovieDetailPage from '../../container/MovieDetailPage'
@@ -17,6 +18,7 @@ function Navigation() {
     <Switch>
       <Route exact path="/" component={MoviePage} />
       <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/logout" component={LogoutPage} />
       <Route exact path="/people" component={PersonPage} />
       <Route exact path="/people/:id" component={PersonDetailPage} />
       <Route exact path="/people/:id/edit" component={EditPersonPage} />

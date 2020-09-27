@@ -2,19 +2,19 @@ import React, { createContext, useEffect, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import * as constants from './constants'
-import { loginRequest, loginSuccess } from './actions'
+import { loginSuccess, logoutSuccess } from './actions'
 import { getUserInfo, setUserInfo } from '../../utils/secureLocal'
 
-const initialState = { username: '' }
+const initialState = { isLogged: false, username: '' }
 
 export const UserContext = createContext(initialState)
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case constants.LOGIN_REQUEST:
-      return loginRequest(initialState)
     case constants.LOGIN_SUCCESS:
       return loginSuccess(action.payload)
+    case constants.LOGOUT_SUCCESS:
+      return logoutSuccess(initialState)
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
@@ -24,7 +24,7 @@ export const UserConsumer = ({ children }) => {
   return (
     <UserContext.Consumer>
       {context => {
-        if (context[0].username === '') {
+        if (!context[0].isLogged) {
           return <Redirect to="/login" />
         }
         return children

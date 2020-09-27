@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppBar, Box, Button, Typography } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { ToolbarStyled, useStyles } from './styles'
+import { UserContext } from '../../container/LoginPage/context'
 
 function TopBar() {
   const classes = useStyles()
+  const [state, dispatch] = useContext(UserContext) // eslint-disable-line no-unused-vars
+
+  const loginButton = () => {
+    return (
+      <Button color="inherit" component={Link} to="/login">
+        Login
+      </Button>
+    )
+  }
+
+  const logoutButton = () => {
+    return (
+      <Button color="inherit" component={Link} to="/logout">
+        Logout
+      </Button>
+    )
+  }
+
   return (
     <AppBar
       className={classes.appBar}
@@ -15,9 +34,7 @@ function TopBar() {
       <ToolbarStyled>
         <Typography variant="h3">Movies Database</Typography>
         <Box flexGrow={1} />
-        <Button color="inherit" component={Link} to="/login">
-          Login
-        </Button>
+        {state.isLogged ? logoutButton() : loginButton()}
       </ToolbarStyled>
     </AppBar>
   )
