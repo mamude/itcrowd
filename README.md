@@ -2,8 +2,8 @@
 
 ### Docker & Docker Composer Instalation
 
-https://docs.docker.com/engine/install/
-https://docs.docker.com/compose/install/
+- https://docs.docker.com/engine/install/
+- https://docs.docker.com/compose/install/
 
 ### Docker Configuration
 
@@ -11,6 +11,7 @@ https://docs.docker.com/compose/install/
 $ docker-compose build
 $ docker-compose up -d
 $ docker exec -it itcrowd_server ./docker-rails-setup.sh
+$ docker-compose restart
 ```
 
 ### Docker Containers
@@ -64,4 +65,7 @@ http://localhost:3000
 ### Api Documentation
 
 Import insomnia.json to **Insomnia**
-https://insomnia.rest/download/
+- https://insomnia.rest/download/
+
+###  Glitch Project
+- https://glitch.com/~mamude-itcrowd
