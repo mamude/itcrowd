@@ -62,7 +62,7 @@ function EditPersonPage() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        history.push('/people')
+        history.push(`/people/${id}`)
       })
       .catch(err => {
         setOpen(true)

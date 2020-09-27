@@ -21,4 +21,11 @@ class Person < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :person_type, presence: true
+
+  # scopes
+  scope :list_order_by_name, -> { order('first_name ASC') }
+  scope :search_by_name, -> search {
+    where('lower(first_name) ilike ? or lower(last_name) ilike ?', "#{search}%", "#{search}%")
+    .order('first_name ASC')
+  }
 end

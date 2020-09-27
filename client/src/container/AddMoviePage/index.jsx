@@ -3,6 +3,7 @@ import * as yup from 'yup'
 import { Field, Form, Formik } from 'formik'
 import { TextField } from 'formik-material-ui'
 import { Button, CircularProgress, Snackbar } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 import { UserConsumer } from '../LoginPage/context'
 import MainWrapper from '../../components/MainWrapper'
 import api from '../../utils/request'
@@ -11,6 +12,7 @@ import { getToken } from '../../utils/secureLocal'
 function AddMoviePage() {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState()
+  const history = useHistory()
 
   const initialValues = {
     title: '',
@@ -45,7 +47,7 @@ function AddMoviePage() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={open}
           message={message}
-          onClose={() => setOpen(false)}
+          onClose={() => history.push('/')}
         />
 
         <Formik

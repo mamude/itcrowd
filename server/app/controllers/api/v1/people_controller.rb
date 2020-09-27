@@ -5,7 +5,14 @@ class Api::V1::PeopleController < ApplicationController
 
   # @route GET /api/v1/people (api_v1_people)
   def index
-    @people = Person.page(params[:page])
+    @people = Person.list_order_by_name.page(params[:page])
+    @total_pages = @people.total_pages
+    @total_count = @people.total_count
+    @current_page = @people.current_page
+  end
+
+  def search
+    @people = Person.search_by_name(search_params[:name]).page(params[:page])
     @total_pages = @people.total_pages
     @total_count = @people.total_count
     @current_page = @people.current_page
@@ -84,5 +91,9 @@ class Api::V1::PeopleController < ApplicationController
 
   def person_params
     params.require(:person).permit(:last_name, :first_name, :aliases, :person_type)
+  end
+
+  def search_params
+    params.require(:person).permit(:name)
   end
 end

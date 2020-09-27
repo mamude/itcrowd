@@ -21,4 +21,11 @@ class Movie < ApplicationRecord
   # validation
   validates :title, presence: true
   validates :release_year, presence: true, length: {is: 4}
+
+  # scopes
+  scope :list_order_by_name, -> { order('title ASC') }
+  scope :search_by_title_or_year, -> search {
+    where('lower(title) ilike ?', "#{search}%")
+    .order('title ASC')
+  }
 end

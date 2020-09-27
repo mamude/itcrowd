@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+  InputAdornment,
   Paper,
   Table,
   TableBody,
@@ -8,10 +9,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import SearchIcon from '@material-ui/icons/Search'
 import MainWrapper from '../../components/MainWrapper'
 import api from '../../utils/request'
+import WrapperDiv from './styles'
 
 function PersonPage() {
   const [data, setData] = useState({
@@ -47,8 +51,32 @@ function PersonPage() {
     setPage(0)
   }
 
+  const handleChangeSearch = event => {
+    async function searchPeople() {
+      const body = { person: { name: event.target.value } }
+      await api.post('/people/search', body).then(response => {
+        setData(response.data)
+      })
+    }
+    searchPeople()
+  }
+
   return (
     <MainWrapper title="People">
+      <WrapperDiv>
+        <TextField
+          label="Search"
+          fullWidth
+          onChange={handleChangeSearch}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </WrapperDiv>
       <TableContainer component={Paper} variant="outlined">
         <Table aria-label="simple table">
           <TableHead>

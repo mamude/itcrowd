@@ -4,7 +4,14 @@ class Api::V1::MoviesController < ApplicationController
 
   # @route GET /api/v1/movies (api_v1_movies)
   def index
-    @movies = Movie.page(params[:page])
+    @movies = Movie.list_order_by_name.page(params[:page])
+    @total_pages = @movies.total_pages
+    @total_count = @movies.total_count
+    @current_page = @movies.current_page
+  end
+
+  def search
+    @movies = Movie.search_by_title_or_year(search_params[:name]).page(params[:page])
     @total_pages = @movies.total_pages
     @total_count = @movies.total_count
     @current_page = @movies.current_page
@@ -49,5 +56,9 @@ class Api::V1::MoviesController < ApplicationController
 
   def movie_params
     params.require(:movie).permit(:title, :release_year)
+  end
+
+  def search_params
+    params.require(:movie).permit(:name)
   end
 end

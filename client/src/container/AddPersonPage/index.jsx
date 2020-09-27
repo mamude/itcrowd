@@ -50,7 +50,6 @@ function AddPersonPage() {
     <UserConsumer>
       <MainWrapper title={`Add ${type}`}>
         <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={open}
           message={message}
           onClose={() => history.push(`/movies/${id}`)}

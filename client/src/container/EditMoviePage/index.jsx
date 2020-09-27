@@ -69,7 +69,7 @@ function EditMoviePage() {
       <Snackbar
         open={open}
         message={message}
-        onClose={() => history.push('/people')}
+        onClose={() => history.push('/')}
       />
       <MainWrapper title={`Edit Movie - ${data.movie.title}`}>
         <Formik
