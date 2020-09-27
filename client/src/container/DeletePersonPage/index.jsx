@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   Button,
   Dialog,
@@ -8,13 +7,12 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core'
-
 import { useHistory, useParams } from 'react-router-dom'
+import { UserConsumer } from '../LoginPage/context'
 import { getToken } from '../../utils/secureLocal'
 import api from '../../utils/request'
-import { UserConsumer } from '../LoginPage/context'
 
-function DeletePerson({ open, title, close }) {
+function DeletePersonPage() {
   const history = useHistory()
   const { id } = useParams()
 
@@ -29,20 +27,17 @@ function DeletePerson({ open, title, close }) {
         history.push('/')
       })
   }
-
   return (
     <UserConsumer>
-      <Dialog open={open} onClose={close} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Movie - {title}</DialogTitle>
+      <Dialog open aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Delete Movie</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={close} color="primary">
-            Cancel
-          </Button>
+          <Button color="primary">Cancel</Button>
           <Button onClick={deletePerson} color="primary" autoFocus>
             Continue
           </Button>
@@ -52,10 +47,4 @@ function DeletePerson({ open, title, close }) {
   )
 }
 
-DeletePerson.propTypes = {
-  open: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-}
-
-export default DeletePerson
+export default DeletePersonPage

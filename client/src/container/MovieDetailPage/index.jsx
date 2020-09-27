@@ -76,7 +76,13 @@ function MovieDetailPage() {
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="secondary" onClick={() => { }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  history.push(`/movies/${id}/delete`)
+                }}
+              >
                 Delete Movie
               </Button>
             </Grid>
