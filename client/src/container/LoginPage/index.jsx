@@ -45,6 +45,7 @@ function LoginPage() {
     <Container component="main" maxWidth="xs">
       <Wrapper>
         <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={open}
           message={message}
           onClose={() => setOpen(false)}

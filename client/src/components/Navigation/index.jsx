@@ -4,14 +4,16 @@ import LoginPage from '../../container/LoginPage/index'
 import PersonPage from '../../container/PersonPage/index'
 import MoviePage from '../../container/MoviePage/index'
 import MovieDetailPage from '../../container/MovieDetailPage/index'
+import AddMovie from '../../container/AddMovie/index'
 
 function Navigation() {
   return (
     <Switch>
-      <Route path="/login" component={LoginPage} />
-      <Route path="/people" component={PersonPage} />
-      <Route path="/movies/:id" component={MovieDetailPage} />
-      <Route path="/" component={MoviePage} />
+      <Route exact path="/" component={MoviePage} />
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/people" component={PersonPage} />
+      <Route exact path="/movies/add" component={AddMovie} />
+      <Route exact path="/movies/:id" component={MovieDetailPage} />
     </Switch>
   )
 }

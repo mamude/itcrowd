@@ -36,6 +36,6 @@ module JwtAuthorization
   end
 
   def is_authenticaded
-    render json: { message: 'Please log in!'}, status: :unauthorized unless is_logged?
+    render json: { error: 'Please log in!' }, status: :unauthorized unless is_logged?
   end
 end

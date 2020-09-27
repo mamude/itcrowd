@@ -19,6 +19,11 @@ function SideMenu() {
             </ButtonMenu>
           </ListItem>
           <ListItem disableGutters>
+            <ButtonMenu component={Link} to="/movies/add">
+              <Span>Add Movie</Span>
+            </ButtonMenu>
+          </ListItem>
+          <ListItem disableGutters>
             <ButtonMenu component={Link} to="/people">
               <Span>People</Span>
             </ButtonMenu>

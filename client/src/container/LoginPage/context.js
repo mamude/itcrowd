@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 import * as constants from './constants'
 import { loginRequest, loginSuccess } from './actions'
 import { getUserInfo, setUserInfo } from '../../utils/secureLocal'
@@ -19,6 +20,19 @@ const reducer = (state, action) => {
   }
 }
 
+export const UserConsumer = ({ children }) => {
+  return (
+    <UserContext.Consumer>
+      {context => {
+        if (context[0].username === '') {
+          return <Redirect to="/login" />
+        }
+        return children
+      }}
+    </UserContext.Consumer>
+  )
+}
+
 const UserProvider = ({ children }) => {
   const localState = getUserInfo() || ''
 
@@ -33,6 +47,10 @@ const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   )
+}
+
+UserConsumer.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 UserProvider.propTypes = {
