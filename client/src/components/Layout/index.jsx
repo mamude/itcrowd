@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TopBar from '../TopBar/index'
+import TopBar from '../TopBar'
+import SideMenu from '../SideMenu'
 import { Root, Content, ContentContainer, Wrapper } from './styles'
 
 function Layout({ children }) {
   return (
     <Root>
       <TopBar />
+      <SideMenu />
       <Wrapper>
         <ContentContainer>
           <Content>{children}</Content>

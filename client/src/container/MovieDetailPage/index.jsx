@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core'
 import { useParams } from 'react-router-dom'
-import MainWrapper from '../../components/MainWrapper/index'
 import api from '../../utils/request'
+import MainWrapper from '../../components/MainWrapper/index'
 import { Title } from '../../components/MainWrapper/styles'
 import PeopleList from './people'
 
 function MovieDetailPage() {
-  const [data, setData] = useState({ movie: [] })
+  const [data, setData] = useState({
+    movie: [],
+    actors: [],
+    producers: [],
+    directors: [],
+  })
   const { id } = useParams()
 
   useEffect(() => {
     async function getMovie() {
-      const response = await api.get(`/movies/${id}`)
-      setData(response.data.movie)
+      await api.get(`/movies/${id}`).then(response => {
+        setData(response.data)
+      })
     }
     getMovie()
   }, [])
@@ -28,7 +34,7 @@ function MovieDetailPage() {
                 Title
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.title}
+                {data.movie.title}
               </Typography>
             </Grid>
             <Grid item xs={3}>
@@ -36,15 +42,15 @@ function MovieDetailPage() {
                 Release Year
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.release_year}
+                {data.movie.release_year}
               </Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h4" color="textSecondary" component="p">
-                Release Year (Romam Number)
+                Release Year (Roman Number)
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.release_year}
+                {data.movie.release_year}
               </Typography>
             </Grid>
           </Grid>
@@ -59,19 +65,19 @@ function MovieDetailPage() {
                 <Typography variant="h4" color="textSecondary" component="p">
                   Actors / Actress
                 </Typography>
-                <PeopleList data={[]} />
+                <PeopleList data={data.actors} />
               </Grid>
               <Grid item xs={3}>
                 <Typography variant="h4" color="textSecondary" component="p">
                   Producers
                 </Typography>
-                <PeopleList data={[]} />
+                <PeopleList data={data.producers} />
               </Grid>
               <Grid item xs={3}>
                 <Typography variant="h4" color="textSecondary" component="p">
                   Directors
                 </Typography>
-                <PeopleList data={[]} />
+                <PeopleList data={data.directors} />
               </Grid>
             </Grid>
           </Box>

@@ -1,14 +1,19 @@
 import React from 'react'
-import { AppBar, Box, Button } from '@material-ui/core'
+import { AppBar, Box, Button, Typography } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { Logo, ToolbarStyled } from './styles'
-import LogoImg from '../../assets/logo.png'
+import { ToolbarStyled, useStyles } from './styles'
 
 function TopBar() {
+  const classes = useStyles()
   return (
-    <AppBar color="primary" position="fixed" elevation={0}>
+    <AppBar
+      className={classes.appBar}
+      color="primary"
+      position="fixed"
+      elevation={0}
+    >
       <ToolbarStyled>
-        <Logo src={LogoImg} alt="Movies Database App" />
+        <Typography variant="h3">Movies Database</Typography>
         <Box flexGrow={1} />
         <Button color="inherit" component={Link} to="/login">
           Login

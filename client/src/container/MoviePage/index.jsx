@@ -17,8 +17,9 @@ function MoviePage() {
 
   useEffect(() => {
     async function getMovies() {
-      const response = await api.get('/movies')
-      setData(response.data)
+      await api.get('/movies').then(response => {
+        setData(response.data)
+      })
     }
     getMovies()
   }, [])
@@ -32,7 +33,7 @@ function MoviePage() {
               <TableCell>Id</TableCell>
               <TableCell>Ttile</TableCell>
               <TableCell align="right">Release Year</TableCell>
-              <TableCell align="right">Release Yarn (Romam Numeral)</TableCell>
+              <TableCell align="right">Release Yarn (Roman Numeral)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

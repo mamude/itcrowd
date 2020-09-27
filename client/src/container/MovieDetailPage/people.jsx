@@ -12,20 +12,31 @@ import PropTypes from 'prop-types'
 function PeopleList({ data }) {
   return (
     <List>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <PersonIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-      </ListItem>
+      {data.map(row => (
+        <ListItem key={row.id}>
+          <ListItemAvatar>
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={`${row.last_name} ${row.first_name}`}
+            secondary={`${row.aliases}`}
+          />
+        </ListItem>
+      ))}
     </List>
   )
 }
 
 PeopleList.propTypes = {
-  data: PropTypes.element.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      last_name: PropTypes.string,
+      first_name: PropTypes.string,
+      aliases: PropTypes.string,
+    })
+  ).isRequired,
 }
 
 export default PeopleList
