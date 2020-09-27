@@ -34,7 +34,7 @@ http://localhost
 http://localhost:3000
 ```
 
-### Tools of development
+### Tools for development
 
 - Windows 10
 - Microsoft VScode + extensions
