@@ -5,7 +5,7 @@
 - https://docs.docker.com/engine/install/
 - https://docs.docker.com/compose/install/
 
-### Docker Configuration
+### Application Setup
 
 ```
 $ docker-compose build
