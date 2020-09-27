@@ -11,6 +11,7 @@ class Api::V1::PeopleController < ApplicationController
     @current_page = @people.current_page
   end
 
+  # @route POST /api/v1/people/search (api_v1_people_search)
   def search
     @people = Person.search_by_name(search_params[:name]).page(params[:page])
     @total_pages = @people.total_pages

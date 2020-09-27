@@ -10,6 +10,7 @@ class Api::V1::MoviesController < ApplicationController
     @current_page = @movies.current_page
   end
 
+  # @route POST /api/v1/movies/search (search_api_v1_movies)
   def search
     @movies = Movie.search_by_title_or_year(search_params[:name]).page(params[:page])
     @total_pages = @movies.total_pages

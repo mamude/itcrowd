@@ -1,6 +1,7 @@
 class Api::V1::SessionsController < ApplicationController
   before_action :is_authenticaded, only: [:destroy]
 
+  # @route POST /api/v1/authentication (api_v1_authentication)
   def create
     user = User.find_by_username(params[:username])
     if user && user.authenticate(params[:password])
@@ -12,6 +13,7 @@ class Api::V1::SessionsController < ApplicationController
     end
   end
 
+  # @route DELETE /api/v1/logout (api_v1_logout)
   def destroy
     user = logged_user
     user.update_attributes(token: nil)
