@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core'
-import { useParams } from 'react-router-dom'
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from '@material-ui/core'
+import { useHistory, useParams } from 'react-router-dom'
 import api from '../../utils/request'
 import MainWrapper from '../../components/MainWrapper/index'
 import { Title } from '../../components/MainWrapper/styles'
+import { DividerHr } from './styles'
 import PeopleList from './people'
 
 function MovieDetailPage() {
@@ -14,6 +22,7 @@ function MovieDetailPage() {
     directors: [],
   })
   const { id } = useParams()
+  const history = useHistory()
 
   useEffect(() => {
     async function getMovie() {
@@ -27,6 +36,53 @@ function MovieDetailPage() {
   return (
     <>
       <MainWrapper title="Movie Detail">
+        <Box flexGrow={1}>
+          <Grid container spacing={3}>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(`/movies/${id}/actor`)}
+              >
+                Add Actor
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(`/movies/${id}/producer`)}
+              >
+                Add Producer
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(`/movies/${id}/director`)}
+              >
+                Add Director
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  history.push(`/movies/${id}/edit`)
+                }}
+              >
+                Edit Movie
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="secondary" onClick={() => { }}>
+                Delete Movie
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+        <DividerHr />
         <Box flexGrow={1}>
           <Grid container spacing={3}>
             <Grid item xs={3}>
