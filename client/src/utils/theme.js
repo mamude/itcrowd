@@ -50,11 +50,14 @@ const theme = createMuiTheme({
       size: '1rem',
     },
     MuiSnackbar: {
-      autoHideDuration: 5000,
+      autoHideDuration: 2000,
       anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'center',
+        vertical: 'bottom',
+        horizontal: 'right',
       },
+    },
+    MuiFormControl: {
+      size: 'small',
     },
   },
   // overrides: {

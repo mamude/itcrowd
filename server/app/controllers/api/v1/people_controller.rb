@@ -80,6 +80,6 @@ class Api::V1::PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:last_name, :first_name, :aliases)
+    params.require(:person).permit(:last_name, :first_name, :aliases, :person_type)
   end
 end

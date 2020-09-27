@@ -12,25 +12,25 @@ import { UserConsumer } from '../LoginPage/context'
 import { getToken } from '../../utils/secureLocal'
 import api from '../../utils/request'
 
-function DeletePersonPage() {
+function DeleteMoviePage() {
   const history = useHistory()
   const { id } = useParams()
 
-  const deletePerson = async values => {
+  const deleteMovie = async values => {
     const token = getToken()
     await api
-      .delete(`/people/${id}`, {
+      .delete(`/movies/${id}`, {
         data: values,
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        history.push('/people')
+        history.push('/')
       })
   }
   return (
     <UserConsumer>
       <Dialog open aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Delete Person</DialogTitle>
+        <DialogTitle id="form-dialog-title">Delete Movie</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure?
@@ -38,7 +38,7 @@ function DeletePersonPage() {
         </DialogContent>
         <DialogActions>
           <Button color="primary">Cancel</Button>
-          <Button onClick={deletePerson} color="primary" autoFocus>
+          <Button onClick={deleteMovie} color="primary" autoFocus>
             Continue
           </Button>
         </DialogActions>
@@ -47,4 +47,4 @@ function DeletePersonPage() {
   )
 }
 
-export default DeletePersonPage
+export default DeleteMoviePage

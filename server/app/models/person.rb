@@ -13,7 +13,7 @@
 class Person < ApplicationRecord
   # association
   has_many :movie_people
-  has_many :movies, through: :movie_people
+  has_many :movies, through: :movie_people, dependent: :destroy
 
   # validation
   validates :first_name, presence: true

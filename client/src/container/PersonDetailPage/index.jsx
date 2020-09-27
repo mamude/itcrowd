@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import {
+  Avatar,
   Box,
   Button,
   Card,
   CardContent,
   Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
   Snackbar,
   Typography,
 } from '@material-ui/core'
-import { useHistory, useParams } from 'react-router-dom'
+import LocalMoviesIcon from '@material-ui/icons/LocalMovies'
+import VisibilityIcon from '@material-ui/icons/Visibility'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import api from '../../utils/request'
 import MainWrapper from '../../components/MainWrapper/index'
 import { Title } from '../../components/MainWrapper/styles'
-import { DividerHr } from './styles'
-import PeopleList from './people'
+import { DividerHr } from '../MovieDetailPage/styles'
 
-function MovieDetailPage() {
+function PersonDetailPage() {
   const [data, setData] = useState({
-    movie: [],
-    actors: [],
-    producers: [],
-    directors: [],
+    person: {},
+    movies: [],
   })
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState()
@@ -28,9 +34,9 @@ function MovieDetailPage() {
   const history = useHistory()
 
   useEffect(() => {
-    async function getMovie() {
+    async function getPerson() {
       await api
-        .get(`/movies/${id}`)
+        .get(`/people/${id}`)
         .then(response => {
           setData(response.data)
         })
@@ -43,54 +49,27 @@ function MovieDetailPage() {
           }
         })
     }
-    getMovie()
+    getPerson()
   }, [])
 
   return (
     <>
-      <MainWrapper title="Movie Detail">
+      <MainWrapper title="Person Info">
         <Snackbar
           open={open}
           message={message}
-          onClose={() => history.push('/')}
+          onClose={() => history.push('/people')}
         />
         <Box flexGrow={1}>
           <Grid container spacing={3}>
             <Grid item>
               <Button
                 variant="contained"
-                color="primary"
-                onClick={() => history.push(`/movies/${id}/actor`)}
-              >
-                Add Actor
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(`/movies/${id}/producer`)}
-              >
-                Add Producer
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(`/movies/${id}/director`)}
-              >
-                Add Director
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
                 onClick={() => {
-                  history.push(`/movies/${id}/edit`)
+                  history.push(`/people/${id}/edit`)
                 }}
               >
-                Edit Movie
+                Edit Person
               </Button>
             </Grid>
             <Grid item>
@@ -98,10 +77,10 @@ function MovieDetailPage() {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                  history.push(`/movies/${id}/delete`)
+                  history.push(`/people/${id}/delete`)
                 }}
               >
-                Delete Movie
+                Delete Person
               </Button>
             </Grid>
           </Grid>
@@ -111,26 +90,34 @@ function MovieDetailPage() {
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <Typography variant="h4" color="textSecondary" component="p">
-                Title
+                First Name
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.movie.title}
+                {data.person.first_name}
               </Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h4" color="textSecondary" component="p">
-                Release Year
+                Last Name
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.movie.release_year}
+                {data.person.last_name}
               </Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h4" color="textSecondary" component="p">
-                Release Year (Roman Number)
+                Aliases
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.movie.release_year}
+                {data.person.aliases}
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="h4" color="textSecondary" component="p">
+                Person Type
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {data.person.person_type}
               </Typography>
             </Grid>
           </Grid>
@@ -138,26 +125,34 @@ function MovieDetailPage() {
       </MainWrapper>
       <Card variant="outlined">
         <CardContent>
-          <Title variant="h3">People</Title>
+          <Title variant="h3">Movies</Title>
           <Box flexGrow={1}>
             <Grid container spacing={3}>
               <Grid item xs={3}>
-                <Typography variant="h4" color="textSecondary" component="p">
-                  Actors / Actress
-                </Typography>
-                <PeopleList data={data.actors} />
-              </Grid>
-              <Grid item xs={3}>
-                <Typography variant="h4" color="textSecondary" component="p">
-                  Producers
-                </Typography>
-                <PeopleList data={data.producers} />
-              </Grid>
-              <Grid item xs={3}>
-                <Typography variant="h4" color="textSecondary" component="p">
-                  Directors
-                </Typography>
-                <PeopleList data={data.directors} />
+                <List>
+                  {data.movies.map(row => (
+                    <ListItem key={row.id}>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <LocalMoviesIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${row.title}`}
+                        secondary={`Release Year ${row.release_year}`}
+                      />
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          edge="end"
+                          component={Link}
+                          to={`/movies/${row.id}`}
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+                </List>
               </Grid>
             </Grid>
           </Box>
@@ -167,4 +162,4 @@ function MovieDetailPage() {
   )
 }
 
-export default MovieDetailPage
+export default PersonDetailPage
