@@ -9,4 +9,12 @@ ENV PATH=/var/www/client/node_modules/.bin:$PATH
 COPY ./client/package.json ./
 COPY . ./
 
+# Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Node Entrypoint
+COPY docker-node.sh /usr/bin
+RUN chmod +x /usr/bin/docker-node.sh
+ENTRYPOINT [ "docker-node.sh" ]
+
 EXPOSE 80 8080

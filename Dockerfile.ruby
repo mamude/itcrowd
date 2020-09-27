@@ -35,4 +35,9 @@ COPY . ./
 RUN gem install bundler
 RUN bundle check || bundle install
 
+# Rails entrypoint
+COPY docker-rails.sh /usr/bin
+RUN chmod +x /usr/bin/docker-rails.sh
+ENTRYPOINT [ "docker-rails.sh" ]
+
 EXPOSE 3000
