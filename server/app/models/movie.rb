@@ -9,6 +9,8 @@
 #  updated_at   :datetime         not null
 #
 class Movie < ApplicationRecord
+  # pagination
+  paginates_per 50
   # association
   has_many :movie_people
   has_many :people, through: :movie_people

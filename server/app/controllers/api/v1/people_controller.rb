@@ -5,7 +5,10 @@ class Api::V1::PeopleController < ApplicationController
 
   # @route GET /api/v1/people (api_v1_people)
   def index
-    @people = Person.all
+    @people = Person.page(params[:page])
+    @total_pages = @people.total_pages
+    @total_count = @people.total_count
+    @current_page = @people.current_page
   end
 
   # @route GET /api/v1/movies/:movie_id/people/all (all_api_v1_movie_people)

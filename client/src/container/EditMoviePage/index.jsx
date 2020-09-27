@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { Field, Form, Formik } from 'formik'
 import { TextField } from 'formik-material-ui'
-import { Button, CircularProgress } from '@material-ui/core'
+import { Button, CircularProgress, Snackbar } from '@material-ui/core'
 import { useHistory, useParams } from 'react-router-dom'
 import { UserConsumer } from '../LoginPage/context'
 import MainWrapper from '../../components/MainWrapper'
@@ -11,14 +11,26 @@ import { getToken } from '../../utils/secureLocal'
 
 function EditMoviePage() {
   const [data, setData] = useState({ movie: [] })
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState()
   const history = useHistory()
   const { id } = useParams()
 
   useEffect(() => {
     async function getMovie() {
-      await api.get(`/movies/${id}`).then(response => {
-        setData(response.data)
-      })
+      await api
+        .get(`/movies/${id}`)
+        .then(response => {
+          setData(response.data)
+        })
+        .catch(err => {
+          setOpen(true)
+          if (err.response.status === 404) {
+            setMessage(err.response.statusText)
+          } else {
+            setMessage(err.response.data.error)
+          }
+        })
     }
     getMovie()
   }, [])
@@ -42,10 +54,23 @@ function EditMoviePage() {
       .then(() => {
         history.push(`/movies/${id}`)
       })
+      .catch(err => {
+        setOpen(true)
+        if (err.response.status === 404) {
+          setMessage(err.response.statusText)
+        } else {
+          setMessage(err.response.data.error)
+        }
+      })
   }
 
   return (
     <UserConsumer>
+      <Snackbar
+        open={open}
+        message={message}
+        onClose={() => history.push('/people')}
+      />
       <MainWrapper title={`Edit Movie - ${data.movie.title}`}>
         <Formik
           enableReinitialize

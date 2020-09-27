@@ -24,7 +24,7 @@ function EditPersonPage() {
   const { id } = useParams()
 
   useEffect(() => {
-    async function getMovie() {
+    async function getPerson() {
       await api
         .get(`/people/${id}`)
         .then(response => {
@@ -39,7 +39,7 @@ function EditPersonPage() {
           }
         })
     }
-    getMovie()
+    getPerson()
   }, [])
 
   const initialValues = {
@@ -61,9 +61,8 @@ function EditPersonPage() {
       .put(`/people/${id}`, values, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then(response => {
-        setOpen(true)
-        setMessage(response.data.message)
+      .then(() => {
+        history.push('/people')
       })
       .catch(err => {
         setOpen(true)
@@ -77,14 +76,14 @@ function EditPersonPage() {
 
   return (
     <UserConsumer>
+      <Snackbar
+        open={open}
+        message={message}
+        onClose={() => history.push('/people')}
+      />
       <MainWrapper
         title={`Edit Person - ${data.person.first_name} ${data.person.last_name}`}
       >
-        <Snackbar
-          open={open}
-          message={message}
-          onClose={() => history.push('/people')}
-        />
         <Formik
           enableReinitialize
           validationSchema={schema}

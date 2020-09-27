@@ -6,6 +6,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
@@ -13,7 +14,14 @@ import MainWrapper from '../../components/MainWrapper'
 import api from '../../utils/request'
 
 function MoviePage() {
-  const [data, setData] = useState({ movies: [] })
+  const [data, setData] = useState({
+    movies: [],
+    current_page: 0,
+    total_pages: 0,
+    total_count: 0,
+  })
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(50)
 
   useEffect(() => {
     async function getMovies() {
@@ -23,6 +31,21 @@ function MoviePage() {
     }
     getMovies()
   }, [])
+
+  const handleChangePage = (event, newPage) => {
+    async function getPeople() {
+      await api.get(`/movies?page=${newPage + 1}`).then(response => {
+        setData(response.data)
+        setPage(newPage)
+      })
+    }
+    getPeople()
+  }
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   return (
     <MainWrapper title="Movies">
@@ -52,6 +75,14 @@ function MoviePage() {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        count={data.total_count}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+        component="div"
+      />
     </MainWrapper>
   )
 }

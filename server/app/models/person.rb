@@ -11,6 +11,8 @@
 #  updated_at  :datetime         not null
 #
 class Person < ApplicationRecord
+  # pagination
+  paginates_per 50
   # association
   has_many :movie_people
   has_many :movies, through: :movie_people, dependent: :destroy

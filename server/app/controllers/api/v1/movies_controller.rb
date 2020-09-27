@@ -4,7 +4,10 @@ class Api::V1::MoviesController < ApplicationController
 
   # @route GET /api/v1/movies (api_v1_movies)
   def index
-    @movies = Movie.all
+    @movies = Movie.page(params[:page])
+    @total_pages = @movies.total_pages
+    @total_count = @movies.total_count
+    @current_page = @movies.current_page
   end
 
   # @route GET /api/v1/movies/:id (api_v1_movie)
