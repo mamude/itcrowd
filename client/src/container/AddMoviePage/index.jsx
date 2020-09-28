@@ -33,10 +33,11 @@ function AddMoviePage() {
       .then(response => {
         setOpen(true)
         setMessage(response.data.message)
+        history.push('/')
       })
       .catch(err => {
         setOpen(true)
-        setMessage(err.response.data.error)
+        setMessage(err.response.data.error.release_year)
       })
   }
 
@@ -47,7 +48,6 @@ function AddMoviePage() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={open}
           message={message}
-          onClose={() => history.push('/')}
         />
 
         <Formik
