@@ -14,7 +14,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: Dockerfile.ruby
+      dockerfile: Dockerfile.server
     image: itcrowd_server:dev
     container_name: itcrowd_server
     env_file: .env
@@ -34,7 +34,7 @@ services:
     container_name: itcrowd_client
     build:
       context: .
-      dockerfile: Dockerfile.node
+      dockerfile: Dockerfile.client
     image: itcrowd_client:dev
     env_file: .env
     volumes:

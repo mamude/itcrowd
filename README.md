@@ -8,6 +8,7 @@
 ### Docker Configuration
 
 ```
+$ cp .env.local .env
 $ docker-compose build
 $ docker-compose up -d
 $ docker exec -it itcrowd_server ./docker-rails-setup.sh
@@ -65,7 +66,9 @@ http://localhost:3000
 ### Api Documentation
 
 Import insomnia.json to **Insomnia**
+
 - https://insomnia.rest/download/
 
-###  Glitch Project
+### Glitch Project
+
 - https://glitch.com/~mamude-itcrowd
