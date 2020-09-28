@@ -31,6 +31,8 @@ RUN apk add --update --no-cache \
 WORKDIR $RAILS_ROOT
 COPY server/Gemfile server/Gemfile.lock ./
 COPY . ./
+COPY docker-rails-setup.sh /usr/bin
+RUN chmod +x /usr/bin/docker-rails-setup.sh
 
 RUN gem install bundler
 RUN bundle check || bundle install
