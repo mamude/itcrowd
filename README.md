@@ -11,7 +11,7 @@
 $ cp .env.local .env
 $ docker-compose build
 $ docker-compose up -d
-$ docker exec -it itcrowd_server ./docker-rails-setup.sh
+$ docker exec -it itcrowd_server docker-rails-setup.sh
 $ docker-compose restart
 ```
 
