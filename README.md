@@ -75,8 +75,5 @@ Import insomnia.json to **Insomnia**
 
 ### Online Demo
 
-## Frontend
 - https://samirmamude.herokuapp.com/
 
-## Backend
-- https://samirmamude-rails.herokuapp.com/api/v1
