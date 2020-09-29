@@ -1,6 +1,5 @@
 class Api::V1::PeopleController < ApplicationController
-  before_action :is_authenticaded, only: [:update, :destroy, :add_actor, :add_director, :add_producer]
-  before_action :set_movie, only: [:all_by_movie, :add_actor, :add_producer, :add_director]
+  before_action :is_authenticaded, only: [:create, :update, :destroy]
   before_action :set_person, only: [:show, :update, :destroy]
 
   # @route GET /api/v1/people (api_v1_people)
@@ -13,20 +12,24 @@ class Api::V1::PeopleController < ApplicationController
 
   # @route POST /api/v1/people/search (api_v1_people_search)
   def search
-    @people = Person.search_by_name(search_params[:name]).page(params[:page])
+    @people = Person.search(search_params[:search]).page(params[:page])
     @total_pages = @people.total_pages
     @total_count = @people.total_count
     @current_page = @people.current_page
   end
 
-  # @route GET /api/v1/movies/:movie_id/people/all (all_api_v1_movie_people)
-  def all_by_movie
-    @people = @movie.people
-  end
-
   # @route GET /api/v1/people/:id (api_v1)
   def show
     @people
+  end
+
+  def create
+    person = Person.create(person_params)
+    if person.save
+      render json: { message: "Person created successfully" }, status: :created
+    else
+      render json: { error: person.errors.messages }, status: :bad_request
+    end
   end
 
   # @route PUT /api/v1/people/:id (api_v1)
@@ -41,39 +44,6 @@ class Api::V1::PeopleController < ApplicationController
     head :no_content
   end
 
-  # @route POST /api/v1/movies/:movie_id/people/actor (actor_api_v1_movie_people)
-  def add_actor
-    person = @movie.actors.build(person_params)
-    @movie.people << person
-    if person.save
-      render json: { message: "Person created successfully" }
-    else
-      render json: { error: person.errors.messages }
-    end
-  end
-
-  # @route POST /api/v1/movies/:movie_id/people/producer (producer_api_v1_movie_people)
-  def add_producer
-    person = @movie.producers.build(person_params)
-    @movie.people << person
-    if person.save
-      render json: { message: "Person created successfully" }
-    else
-      render json: { error: person.errors.messages }
-    end
-  end
-
-  # @route POST /api/v1/movies/:movie_id/people/director (director_api_v1_movie_people)
-  def add_director
-    person = @movie.directors.build(person_params)
-    @movie.people << person
-    if person.save
-      render json: { message: "Person created successfully" }
-    else
-      render json: { error: person.errors.messages }
-    end
-  end
-
   private
 
   def set_person
@@ -83,18 +53,11 @@ class Api::V1::PeopleController < ApplicationController
     end
   end
 
-  def set_movie
-    @movie = Movie.find_by_id(params[:movie_id])
-    unless @movie.present?
-      render json: {error: "Movie not found"}, status: 404
-    end
-  end
-
   def person_params
-    params.require(:person).permit(:last_name, :first_name, :aliases, :person_type)
+    params.require(:person).permit(:age, :last_name, :first_name, :aliases, :country)
   end
 
   def search_params
-    params.require(:person).permit(:name)
+    params.require(:person).permit(:search)
   end
 end

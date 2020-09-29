@@ -23,8 +23,8 @@ class Movie < ApplicationRecord
 
   # scopes
   scope :list_order_by_name, -> { order('title ASC') }
-  scope :search_by_title_, -> search {
-    where('lower(title) ilike ?', "%#{search}%")
+  scope :search_by_title, -> search {
+    where('lower(title) ilike :search', search: "%#{search}%")
     .order('title ASC')
   }
 
