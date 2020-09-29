@@ -12,6 +12,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rack-cors'
 gem 'jwt'
 gem 'kaminari'
+gem 'database_cleaner-active_record'
+gem 'faker'
+gem 'ffaker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -23,7 +26,4 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'annotate'
   gem 'chusaku'
-  gem 'faker'
-  gem 'ffaker'
-  gem 'database_cleaner-active_record'
 end

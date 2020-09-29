@@ -1,0 +1,85 @@
+# -------------------------------------------------------------------------------------------------
+# BUILD FOR NGINX
+# -------------------------------------------------------------------------------------------------
+# FROM node:12-alpine3.12 as builder
+
+# RUN apk update && apk upgrade && apk add --update --no-cache gettext openrc tzdata zsh
+# ENV SKIP_PREFLIGHT_CHECK=true
+
+# WORKDIR /var/www/client
+# ENV PATH=/var/www/client/node_modules/.bin:$PATH
+
+# COPY ./client/package.json ./client/yarn.lock ./
+# COPY ./client ./
+# RUN yarn && yarn build
+
+# FROM nginx:alpine
+# COPY nginx.prod.conf /etc/nginx/templates/default.conf.template
+# COPY --from=builder /var/www/client/build /usr/share/nginx/html
+
+
+# -------------------------------------------------------------------------------------------------
+# BUILD FOR RUBY ON RAILS
+# -------------------------------------------------------------------------------------------------
+# FROM ruby:2.6.5-alpine as builder
+
+# ARG RAILS_ROOT=/var/www/server
+# ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
+
+# RUN apk add --update --no-cache \
+#   binutils-gold \
+#   build-base \
+#   curl \
+#   file \
+#   g++ \
+#   gcc \
+#   git \
+#   less \
+#   libstdc++ \
+#   libffi-dev \
+#   libc-dev \
+#   linux-headers \
+#   libgcrypt-dev \
+#   make \
+#   netcat-openbsd \
+#   openssl \
+#   pkgconfig \
+#   postgresql-dev \
+#   python \
+#   tzdata \
+#   zsh
+
+# WORKDIR $RAILS_ROOT
+
+# COPY ./server/Gemfile ./
+# COPY ./server ./
+
+# RUN gem install bundler
+# RUN bundle config set deployment 'true'
+# RUN bundle install
+
+# # Build for production
+# FROM ruby:2.6.5-alpine
+
+# ARG RAILS_ROOT=/var/www/server
+# ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
+
+# RUN apk update && apk upgrade && apk add --update --no-cache \
+#   tzdata \
+#   openssl \
+#   postgresql-client \
+#   git \
+#   zsh
+
+# RUN gem install bundler
+
+# WORKDIR $RAILS_ROOT
+
+# COPY --from=builder $RAILS_ROOT $RAILS_ROOT
+
+# # Rails entrypoint
+# COPY docker-rails-prod.sh /usr/bin
+# RUN chmod +x /usr/bin/docker-rails-prod.sh
+# ENTRYPOINT [ "docker-rails-prod.sh" ]
+
+# EXPOSE 3000

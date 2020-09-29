@@ -7,4 +7,4 @@ if [ -f /var/www/server/tmp/pids/server.pid ]; then
 fi
 
 bundle check || bundle install
-bundle exec rails server -b 0.0.0.0
+bundle exec rails server -p 3000 -b 0.0.0.0
