@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_25_012504) do
+ActiveRecord::Schema.define(version: 2020_09_29_183322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,23 @@ ActiveRecord::Schema.define(version: 2020_09_25_012504) do
     t.string "last_name", null: false
     t.string "first_name", null: false
     t.string "aliases"
-    t.string "person_type", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "age"
+    t.string "country"
+  end
+
+  create_table "person_roles", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.bigint "role_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_person_roles_on_person_id"
+    t.index ["role_id"], name: "index_person_roles_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -50,4 +66,6 @@ ActiveRecord::Schema.define(version: 2020_09_25_012504) do
 
   add_foreign_key "movie_people", "movies"
   add_foreign_key "movie_people", "people"
+  add_foreign_key "person_roles", "people"
+  add_foreign_key "person_roles", "roles"
 end

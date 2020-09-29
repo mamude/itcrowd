@@ -12,26 +12,35 @@ DatabaseCleaner.clean_with(:truncation)
 # Add User Admin
 User.create(username: 'admin', password: 'admin')
 
+# Add Roles
+['Actor','Producer','Director'].each do |role|
+  Role.create(name: role)
+end
+
 # Add Movies
-100.times do
+1000.times do
   date = Faker::Date.between(from: 50.years.ago, to: Date.today)
-  Movie.create(title: FFaker::Movie.title, release_year: date.year) do |movie|
-    # add actors
-    count = rand(1..30)
-    count.times do
-      movie.actors.build(last_name: FFaker::Name.last_name, first_name: FFaker::Name.first_name, aliases: Faker::FunnyName.name)
-    end
+  Movie.create(title: FFaker::Movie.title, release_year: date.year)
+end
 
-    # add producers
-    count = rand(1..50)
-    count.times do
-      movie.producers.build(last_name: FFaker::Name.last_name, first_name: FFaker::Name.first_name, aliases: Faker::FunnyName.name)
-    end
+# Add People
+2000.times do
+  age = rand(1..99)
+  person = Person.create(age: age, country: FFaker::Address.country, last_name: FFaker::Name.last_name, first_name: FFaker::Name.first_name, aliases: Faker::FunnyName.name)
+end
 
-    # add directors
-    count = rand(1..3)
-    count.times do
-      movie.directors.build(last_name: FFaker::Name.last_name, first_name: FFaker::Name.first_name, aliases: Faker::FunnyName.name)
-    end
+# Associate Person X N Movies
+2000.times do
+  movie = Movie.find(rand(1..1000))
+  person = Person.find(rand(1..2000))
+  movie.people << person
+end
+
+# Associate Person X N Roles
+2000.times do
+  role = Role.find(rand(1..3))
+  person = Person.find(rand(1..2000))
+  unless PersonRole.where(person:person, role:role).exists?
+    person.roles << role
   end
 end
