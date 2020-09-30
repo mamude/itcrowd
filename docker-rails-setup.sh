@@ -5,6 +5,7 @@ set -e
 echo 'Setting database...'
 
 bundle check || bundle install
+bundle exec rake db:drop
 bundle exec rake db:create
 echo 'DB created...'
 

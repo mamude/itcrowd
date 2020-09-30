@@ -35,5 +35,5 @@ end
   movie = Movie.find(rand(1..100))
   person = Person.find(rand(1..200))
   movie.people << person
-  movie.person_role.create(person: person, role: role)
+  movie.person_roles.create(person: person, role: role)
 end

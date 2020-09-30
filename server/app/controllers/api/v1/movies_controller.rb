@@ -49,9 +49,17 @@ class Api::V1::MoviesController < ApplicationController
   end
 
   def add_person
-    @movie.people << @person
-    @person.roles << @roles
-    render json: {message: "Person added to the movie successfully" }, status: :created
+    # checks if person is already belongs to this movie
+    movie = @person.movie_people.where(movie_id: @movie.id).exists?
+    unless movie
+      @movie.people << @person
+      @roles.each do |role|
+        @person.person_roles.create(movie: @movie, person: @person, role: role)
+      end
+      render json: {message: "Person added to the movie successfully" }, status: :created
+    else
+      render json: {message: "This person already belongs to this movie" }, status: :created
+    end
   end
 
   private
