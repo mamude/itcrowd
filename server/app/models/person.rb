@@ -17,8 +17,8 @@ class Person < ApplicationRecord
   # association
   has_many :movie_people
   has_many :movies, through: :movie_people, dependent: :destroy
-  has_many :person_role
-  has_many :roles, through: :person_role, dependent: :destroy
+  has_many :person_roles
+  has_many :roles, through: :person_roles, dependent: :destroy
 
   # validation
   validates :age, presence: true, length: {maximum: 2}

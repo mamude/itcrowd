@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :movies do
         collection do
           post 'search', to: 'movies#search'
+          post '/:id/add_person', to: 'movies#add_person'
         end
       end
       post '/authentication', to: 'sessions#create'

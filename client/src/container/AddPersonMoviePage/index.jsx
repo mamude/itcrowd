@@ -1,49 +1,30 @@
 import React, { useState } from 'react'
 import * as yup from 'yup'
-import { Field, Form, Formik } from 'formik'
-import { TextField } from 'formik-material-ui'
 import { Button, CircularProgress, Snackbar } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
-import { UserConsumer } from '../LoginPage/context'
+import { Field, Form, Formik } from 'formik'
+import { TextField } from 'formik-material-ui'
 import MainWrapper from '../../components/MainWrapper'
-import api from '../../utils/request'
-import { getToken } from '../../utils/secureLocal'
+import { UserConsumer } from '../LoginPage/context'
 
-function AddMoviePage() {
+function AddPersonMoviePage() {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState()
   const history = useHistory()
 
   const initialValues = {
-    title: '',
-    release_year: '',
+    person: '',
+    role: '',
   }
 
   const schema = yup.object({
-    title: yup.string().required(),
-    release_year: yup.string().required().min(4).max(4),
+    person: yup.number().integer().required(),
+    role: yup.number().integer().required(),
   })
-
-  const saveMovie = async values => {
-    const token = getToken()
-    await api
-      .post('/movies', values, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(response => {
-        setOpen(true)
-        setMessage(response.data.message)
-        history.push('/')
-      })
-      .catch(err => {
-        setOpen(true)
-        setMessage(err.response.data.error.release_year)
-      })
-  }
 
   return (
     <UserConsumer>
-      <MainWrapper title="Add Movie">
+      <MainWrapper title="Add Person to Movie">
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={open}
@@ -53,7 +34,6 @@ function AddMoviePage() {
           validationSchema={schema}
           initialValues={initialValues}
           onSubmit={async (values, { resetForm }) => {
-            await saveMovie(values)
             resetForm()
           }}
         >
@@ -62,13 +42,6 @@ function AddMoviePage() {
               <Field
                 name="title"
                 label="Title"
-                margin="normal"
-                fullWidth
-                component={TextField}
-              />
-              <Field
-                name="release_year"
-                label="Release Year"
                 margin="normal"
                 fullWidth
                 component={TextField}
@@ -90,4 +63,4 @@ function AddMoviePage() {
   )
 }
 
-export default AddMoviePage
+export default AddPersonMoviePage

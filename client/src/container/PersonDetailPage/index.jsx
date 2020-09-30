@@ -55,7 +55,9 @@ function PersonDetailPage() {
 
   return (
     <>
-      <MainWrapper title="Person Info">
+      <MainWrapper
+        title={`Person - ${data.person.first_name} ${data.person.last_name}`}
+      >
         <Snackbar
           open={open}
           message={message}

@@ -1,6 +1,8 @@
 class Api::V1::MoviesController < ApplicationController
   before_action :is_authenticaded, only: [:create, :update, :destroy]
-  before_action :set_movie, only: [:show, :update, :destroy]
+  before_action :set_movie, only: [:show, :update, :destroy, :add_person]
+  before_action :set_person, only: [:add_person]
+  before_action :set_roles, only: [:add_person]
 
   # @route GET /api/v1/movies (api_v1_movies)
   def index
@@ -46,6 +48,12 @@ class Api::V1::MoviesController < ApplicationController
     head :no_content
   end
 
+  def add_person
+    @movie.people << @person
+    @person.roles << @roles
+    render json: {message: "Person added to the movie successfully" }, status: :created
+  end
+
   private
 
   def set_movie
@@ -55,8 +63,22 @@ class Api::V1::MoviesController < ApplicationController
     end
   end
 
+  def set_person
+    @person = Person.find_by_id(params[:movie][:person])
+    unless @person.present?
+      render json: {error: "Person not found"}, status: 404
+    end
+  end
+
+  def set_roles
+    @roles = Role.where(id: params[:movie][:role])
+    unless @roles.present?
+      render json: {error: "Role(s) not found"}, status: 404
+    end
+  end
+
   def movie_params
-    params.require(:movie).permit(:title, :release_year)
+    params.require(:movie).permit(:title, :release_year, :person, role: [])
   end
 
   def search_params

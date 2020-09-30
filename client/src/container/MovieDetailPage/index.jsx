@@ -37,7 +37,9 @@ function MovieDetailPage() {
 
   return (
     <>
-      <MainWrapper title="Movie Detail">
+      <MainWrapper
+        title={`Movie - ${data.movie.title} (${data.movie.release_year})`}
+      >
         <Snackbar
           open={open}
           message={message}
@@ -49,9 +51,9 @@ function MovieDetailPage() {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => history.push(`/people/add`)}
+                onClick={() => history.push(`/movies/${id}/add_person`)}
               >
-                Add Person
+                Add Person to this Movie
               </Button>
             </Grid>
             <Grid item>

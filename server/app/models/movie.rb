@@ -15,7 +15,9 @@ class Movie < ApplicationRecord
   paginates_per 50
   # association
   has_many :movie_people
-  has_many :people, through: :movie_people
+  has_many :people, through: :movie_people, dependent: :destroy
+  has_many :person_roles
+  has_many :roles, through: :person_roles, dependent: :destroy
 
   # validation
   validates :title, presence: true

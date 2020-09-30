@@ -18,29 +18,22 @@ User.create(username: 'admin', password: 'admin')
 end
 
 # Add Movies
-1000.times do
+100.times do
   date = Faker::Date.between(from: 50.years.ago, to: Date.today)
   Movie.create(title: FFaker::Movie.title, release_year: date.year)
 end
 
 # Add People
-2000.times do
+200.times do
   age = rand(1..65)
   person = Person.create(age: age, country: FFaker::Address.country, last_name: FFaker::Name.last_name, first_name: FFaker::Name.first_name, aliases: Faker::FunnyName.name)
 end
 
 # Associate Person X N Movies
-2000.times do
-  movie = Movie.find(rand(1..1000))
-  person = Person.find(rand(1..2000))
-  movie.people << person
-end
-
-# Associate Person X N Roles
-2000.times do
+200.times do
   role = Role.find(rand(1..3))
-  person = Person.find(rand(1..2000))
-  unless PersonRole.where(person:person, role:role).exists?
-    person.roles << role
-  end
+  movie = Movie.find(rand(1..100))
+  person = Person.find(rand(1..200))
+  movie.people << person
+  movie.person_role.create(person: person, role: role)
 end
