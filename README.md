@@ -35,7 +35,7 @@ http://localhost
 http://localhost:3000
 ```
 
-### Tools of development
+### Tools for development
 
 - Windows 10
 - Microsoft VScode + extensions
@@ -49,6 +49,7 @@ http://localhost:3000
 - Ruby on Rails 6
 - JWT
 - React 16
+- React Context
 - React Router Dom
 - Material UI
 - Formik
