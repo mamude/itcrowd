@@ -42,7 +42,7 @@ function EditMoviePage() {
 
   const schema = yup.object({
     title: yup.string().required(),
-    release_year: yup.string().required().min(4).max(4),
+    release_year: yup.number().required().min(4).max(4),
   })
 
   const saveMovie = async values => {

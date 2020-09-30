@@ -53,7 +53,7 @@ function PersonPage() {
 
   const handleChangeSearch = event => {
     async function searchPeople() {
-      const body = { person: { name: event.target.value } }
+      const body = { person: { search: event.target.value } }
       await api.post('/people/search', body).then(response => {
         setData(response.data)
       })
@@ -84,8 +84,9 @@ function PersonPage() {
               <TableCell>Id</TableCell>
               <TableCell>First Name</TableCell>
               <TableCell>Last Name</TableCell>
+              <TableCell align="right">Age</TableCell>
+              <TableCell align="right">Country</TableCell>
               <TableCell align="right">Aliases</TableCell>
-              <TableCell align="right">Person Type</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -98,8 +99,9 @@ function PersonPage() {
                   <Link to={`/people/${row.id}`}>{row.first_name}</Link>
                 </TableCell>
                 <TableCell>{row.last_name}</TableCell>
+                <TableCell align="right">{row.age}</TableCell>
+                <TableCell align="right">{row.country}</TableCell>
                 <TableCell align="right">{row.aliases}</TableCell>
-                <TableCell align="right">{row.person_type}</TableCell>
               </TableRow>
             ))}
           </TableBody>

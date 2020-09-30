@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Grid,
   IconButton,
   List,
@@ -88,7 +89,7 @@ function PersonDetailPage() {
         <DividerHr />
         <Box flexGrow={1}>
           <Grid container spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography variant="h4" color="textSecondary" component="p">
                 First Name
               </Typography>
@@ -96,7 +97,7 @@ function PersonDetailPage() {
                 {data.person.first_name}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography variant="h4" color="textSecondary" component="p">
                 Last Name
               </Typography>
@@ -104,7 +105,7 @@ function PersonDetailPage() {
                 {data.person.last_name}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography variant="h4" color="textSecondary" component="p">
                 Aliases
               </Typography>
@@ -112,12 +113,20 @@ function PersonDetailPage() {
                 {data.person.aliases}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography variant="h4" color="textSecondary" component="p">
-                Person Type
+                Age
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {data.person.person_type}
+                {data.person.age}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4" color="textSecondary" component="p">
+                Country
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {data.person.country}
               </Typography>
             </Grid>
           </Grid>
@@ -128,29 +137,39 @@ function PersonDetailPage() {
           <Title variant="h3">Movies</Title>
           <Box flexGrow={1}>
             <Grid container spacing={3}>
-              <Grid item xs={3}>
+              <Grid item xs={6}>
                 <List>
                   {data.movies.map(row => (
-                    <ListItem key={row.id}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <LocalMoviesIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${row.title}`}
-                        secondary={`Release Year ${row.release_year}`}
-                      />
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          edge="end"
-                          component={Link}
-                          to={`/movies/${row.id}`}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
+                    <React.Fragment key={row.movie.id}>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <LocalMoviesIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={row.movie.title}
+                          secondary={`Release Year ${row.movie.release_year}`}
+                        />
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            edge="end"
+                            component={Link}
+                            to={`/movies/${row.movie.id}`}
+                          >
+                            <VisibilityIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                      {row.roles.map(role => (
+                        <Chip
+                          key={role.id}
+                          variant="outlined"
+                          size="small"
+                          label={role.name}
+                        />
+                      ))}
+                    </React.Fragment>
                   ))}
                 </List>
               </Grid>

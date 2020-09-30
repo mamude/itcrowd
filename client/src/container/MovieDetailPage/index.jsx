@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Snackbar,
-  Typography,
-} from '@material-ui/core'
+import { Box, Button, Grid, Snackbar, Typography } from '@material-ui/core'
 import { useHistory, useParams } from 'react-router-dom'
 import api from '../../utils/request'
 import MainWrapper from '../../components/MainWrapper/index'
-import { Title } from '../../components/MainWrapper/styles'
 import { DividerHr } from './styles'
-import PeopleList from './people'
+import Casting from './casting'
 
 function MovieDetailPage() {
   const [data, setData] = useState({
     movie: [],
-    actors: [],
-    producers: [],
-    directors: [],
+    casting: [],
   })
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState()
@@ -60,27 +49,9 @@ function MovieDetailPage() {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => history.push(`/movies/${id}/actor`)}
+                onClick={() => history.push(`/people/add`)}
               >
-                Add Actor
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(`/movies/${id}/producer`)}
-              >
-                Add Producer
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(`/movies/${id}/director`)}
-              >
-                Add Director
+                Add Person
               </Button>
             </Grid>
             <Grid item>
@@ -136,33 +107,9 @@ function MovieDetailPage() {
           </Grid>
         </Box>
       </MainWrapper>
-      <Card variant="outlined">
-        <CardContent>
-          <Title variant="h3">People</Title>
-          <Box flexGrow={1}>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Typography variant="h4" color="textSecondary" component="p">
-                  Actors / Actress
-                </Typography>
-                <PeopleList data={data.actors} />
-              </Grid>
-              <Grid item xs={3}>
-                <Typography variant="h4" color="textSecondary" component="p">
-                  Producers
-                </Typography>
-                <PeopleList data={data.producers} />
-              </Grid>
-              <Grid item xs={3}>
-                <Typography variant="h4" color="textSecondary" component="p">
-                  Directors
-                </Typography>
-                <PeopleList data={data.directors} />
-              </Grid>
-            </Grid>
-          </Box>
-        </CardContent>
-      </Card>
+      <MainWrapper title="Casting">
+        <Casting data={data} />
+      </MainWrapper>
     </>
   )
 }

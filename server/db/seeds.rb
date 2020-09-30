@@ -25,7 +25,7 @@ end
 
 # Add People
 2000.times do
-  age = rand(1..99)
+  age = rand(1..65)
   person = Person.create(age: age, country: FFaker::Address.country, last_name: FFaker::Name.last_name, first_name: FFaker::Name.first_name, aliases: Faker::FunnyName.name)
 end
 

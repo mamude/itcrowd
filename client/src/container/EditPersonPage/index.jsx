@@ -18,6 +18,7 @@ import api from '../../utils/request'
 
 function EditPersonPage() {
   const [data, setData] = useState({ person: [] })
+  const [countries, setCountries] = useState([])
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState()
   const history = useHistory()
@@ -25,6 +26,7 @@ function EditPersonPage() {
 
   useEffect(() => {
     async function getPerson() {
+      // get person info
       await api
         .get(`/people/${id}`)
         .then(response => {
@@ -38,6 +40,10 @@ function EditPersonPage() {
             setMessage(err.response.data.error)
           }
         })
+      // get list of countries
+      await api.get('/countries').then(response => {
+        setCountries(response.data)
+      })
     }
     getPerson()
   }, [])
@@ -46,13 +52,15 @@ function EditPersonPage() {
     first_name: data.person.first_name || '',
     last_name: data.person.last_name || '',
     aliases: data.person.aliases || '',
-    person_type: data.person.person_type || '',
+    age: data.person.age || '',
+    country: data.person.country || '',
   }
 
   const schema = yup.object({
     first_name: yup.string().required(),
     last_name: yup.string().required(),
-    person_type: yup.string().required(),
+    age: yup.number().max(70).required(),
+    country: yup.string().required(),
   })
 
   const savePerson = async values => {
@@ -109,6 +117,13 @@ function EditPersonPage() {
                 component={TextField}
               />
               <Field
+                name="age"
+                label="Age"
+                margin="normal"
+                fullWidth
+                component={TextField}
+              />
+              <Field
                 name="aliases"
                 label="Aliases"
                 margin="normal"
@@ -116,18 +131,20 @@ function EditPersonPage() {
                 component={TextField}
               />
               <FormControl margin="normal" fullWidth variant="outlined">
-                <InputLabel htmlFor="person-type">Person Type</InputLabel>
+                <InputLabel htmlFor="country">Country</InputLabel>
                 <Field
-                  name="person_type"
-                  label="Person Type"
+                  name="country"
+                  label="Country"
                   inputProps={{
-                    id: 'person-type',
+                    id: 'country',
                   }}
                   component={Select}
                 >
-                  <MenuItem value="actor">Actor</MenuItem>
-                  <MenuItem value="producer">Producer</MenuItem>
-                  <MenuItem value="director">Director</MenuItem>
+                  {countries.map(country => (
+                    <MenuItem key={country} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))}
                 </Field>
               </FormControl>
 
