@@ -10,7 +10,7 @@ class Api::V1::PeopleController < ApplicationController
     @current_page = @people.current_page
   end
 
-  # @route POST /api/v1/people/search (api_v1_people_search)
+  # @route POST /api/v1/people/search (search_api_v1_people)
   def search
     @people = Person.search(search_params[:search]).page(params[:page])
     @total_pages = @people.total_pages
@@ -18,15 +18,17 @@ class Api::V1::PeopleController < ApplicationController
     @current_page = @people.current_page
   end
 
+  # @route POST /api/v1/people/autocomplete (autocomplete_api_v1_people)
   def autocomplete
     @people = Person.search(search_params[:search]).page(params[:page]).limit(100)
   end
 
-  # @route GET /api/v1/people/:id (api_v1)
+  # @route GET /api/v1/people/:id (api_v1_person)
   def show
     @people
   end
 
+  # @route POST /api/v1/people (api_v1_people)
   def create
     person = Person.create(person_params)
     if person.save
@@ -36,13 +38,14 @@ class Api::V1::PeopleController < ApplicationController
     end
   end
 
-  # @route PUT /api/v1/people/:id (api_v1)
+  # @route PATCH /api/v1/people/:id (api_v1_person)
+  # @route PUT /api/v1/people/:id (api_v1_person)
   def update
     @person.update(person_params)
     head :no_content
   end
 
-  # @route DELETE /api/v1/people/:id (api_v1)
+  # @route DELETE /api/v1/people/:id (api_v1_person)
   def destroy
     @person.destroy
     head :no_content

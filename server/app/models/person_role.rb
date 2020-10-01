@@ -28,11 +28,11 @@ class PersonRole < ApplicationRecord
   belongs_to :movie
 
   # scopes
-  scope :roles_by_movie, -> (movie) {
+  scope :roles_by_movie, -> (movie, person) {
     includes(:person, :role, :movie)
     .joins(:person, :role, :movie)
     .select('roles.name')
-    .where('movies.id = ?', movie)
+    .where('movies.id = ? AND people.id = ?', movie, person)
     .order('roles.name ASC')
   }
 end

@@ -48,6 +48,7 @@ class Api::V1::MoviesController < ApplicationController
     head :no_content
   end
 
+  # @route POST /api/v1/movies/:id/add_person
   def add_person
     # checks if person is already belongs to this movie
     movie = @person.movie_people.where(movie_id: @movie.id).exists?
