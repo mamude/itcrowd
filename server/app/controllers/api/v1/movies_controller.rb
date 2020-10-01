@@ -1,5 +1,5 @@
 class Api::V1::MoviesController < ApplicationController
-  before_action :is_authenticaded, only: [:create, :update, :destroy]
+  before_action :is_authenticaded, only: [:create, :update, :destroy, :add_person]
   before_action :set_movie, only: [:show, :update, :destroy, :add_person]
   before_action :set_person, only: [:add_person]
   before_action :set_roles, only: [:add_person]

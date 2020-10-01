@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import * as yup from 'yup'
-import { Box, Button, CircularProgress, TextField } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  Checkbox,
+  CircularProgress,
+  FormControlLabel,
+  Snackbar,
+  TextField,
+} from '@material-ui/core'
 import { Field, Form, Formik } from 'formik'
-import { CheckboxWithLabel } from 'formik-material-ui'
 import { Autocomplete } from 'formik-material-ui-lab'
 import { useHistory, useParams } from 'react-router-dom'
 import MainWrapper from '../../components/MainWrapper'
@@ -11,9 +17,12 @@ import api from '../../utils/request'
 import { getToken } from '../../utils/secureLocal'
 
 function AddPersonMoviePage() {
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState()
   const [options, setOptions] = useState([])
   const [roles, setRoles] = useState([])
-  const [value, setValue] = useState(null)
+  const [rolesChecked, setRolesChecked] = useState([])
+  const [person, setPerson] = useState(null)
   const [inputValue, setInputValue] = useState('')
   const { id } = useParams()
   const history = useHistory()
@@ -25,7 +34,7 @@ function AddPersonMoviePage() {
       })
     }
     async function searchPeople() {
-      const body = { person: { search: value } }
+      const body = { person: { search: person } }
       await api.post('/people/autocomplete', body).then(response => {
         setOptions(response.data.people)
       })
@@ -34,39 +43,54 @@ function AddPersonMoviePage() {
     listRoles()
 
     if (inputValue === '') {
-      setOptions(value ? [value] : [])
+      setOptions(person ? [person] : [])
       return undefined
     }
 
     searchPeople()
-  }, [value, inputValue])
+  }, [person, inputValue])
+
+  async function savePerson() {
+    if (rolesChecked.length === 0) {
+      throw new Error('Select a least one Role')
+    }
+
+    const token = getToken()
+    const roleArray = Object.keys(rolesChecked)
+    const body = { movie: { person: person.id, role: roleArray } }
+
+    await api
+      .post(`/movies/${id}/add_person`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        history.push(`/movies/${id}`)
+      })
+  }
+
+  const handleChange = event => {
+    setRolesChecked({
+      ...rolesChecked,
+      [event.target.value]: event.target.checked,
+    })
+  }
 
   const initialValues = {
     person: '',
-    role: '',
-  }
-
-  const schema = yup.object({
-    role: yup.string().required(),
-  })
-
-  async function savePerson() {
-    const token = getToken()
-    const body = { movie: { person: 1, role: [1, 2, 3] } }
-    await api.post(`/movies/${id}/add_person`, body, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    roles: [],
   }
 
   return (
     <UserConsumer>
       <MainWrapper title="Add Person to Movie">
+        <Snackbar open={open} message={message} />
         <Formik
-          validationSchema={schema}
           initialValues={initialValues}
-          onSubmit={async ({ resetForm }) => {
-            await savePerson()
-            resetForm()
+          onSubmit={async () => {
+            await savePerson().catch(err => {
+              setOpen(true)
+              setMessage(err.message)
+            })
           }}
         >
           {({ isSubmitting }) => (
@@ -76,10 +100,10 @@ function AddPersonMoviePage() {
                 component={Autocomplete}
                 includeInputInList
                 filterSelectedOptions
-                value={value}
+                value={person}
                 onChange={(event, newValue) => {
                   setOptions(newValue ? [newValue, ...options] : options)
-                  setValue(newValue)
+                  setPerson(newValue)
                 }}
                 onInputChange={(event, newInputValue) => {
                   setInputValue(newInputValue)
@@ -110,13 +134,16 @@ function AddPersonMoviePage() {
                 )}
               />
               {roles.map(role => (
-                <Field
-                  fullWidth
-                  margin="normal"
-                  component={CheckboxWithLabel}
-                  type="checkbox"
-                  name={role.name}
-                  Label={{ label: role.name }}
+                <FormControlLabel
+                  key={role.id}
+                  control={
+                    <Checkbox
+                      name={role.name}
+                      value={role.id}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={role.name}
                 />
               ))}
               <Box flexGrow={1} />
