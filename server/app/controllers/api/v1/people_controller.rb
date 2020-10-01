@@ -18,6 +18,10 @@ class Api::V1::PeopleController < ApplicationController
     @current_page = @people.current_page
   end
 
+  def autocomplete
+    @people = Person.search(search_params[:search]).page(params[:page]).limit(100)
+  end
+
   # @route GET /api/v1/people/:id (api_v1)
   def show
     @people

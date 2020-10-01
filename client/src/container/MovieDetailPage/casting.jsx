@@ -1,22 +1,18 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import {
-  Avatar,
   Box,
   Button,
-  Card,
   CardActions,
   CardContent,
   Chip,
   Grid,
-  IconButton,
   Typography,
 } from '@material-ui/core'
-import PropTypes from 'prop-types'
-import PersonIcon from '@material-ui/icons/Person'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import { Link } from 'react-router-dom'
 import { CardPerson } from './styles'
 
+// eslint-disable-next-line react/prop-types
 function Casting({ data }) {
   return (
     <Box flexGrow={1}>
@@ -69,10 +65,6 @@ function Casting({ data }) {
       </Grid>
     </Box>
   )
-}
-
-Casting.propTypes = {
-  // data: PropTypes.array.isRequired,
 }
 
 export default Casting

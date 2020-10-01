@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { AppBar, Box, Button, Typography } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { ToolbarStyled, useStyles } from './styles'
