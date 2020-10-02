@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         collection do
           post 'search', to: 'movies#search'
           post '/:id/add_person', to: 'movies#add_person'
+          delete '/:id/remove_person', to: 'movies#remove_person'
         end
       end
       post '/authentication', to: 'sessions#create'

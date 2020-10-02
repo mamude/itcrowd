@@ -1,7 +1,7 @@
 class Api::V1::MoviesController < ApplicationController
-  before_action :is_authenticaded, only: [:create, :update, :destroy, :add_person]
-  before_action :set_movie, only: [:show, :update, :destroy, :add_person]
-  before_action :set_person, only: [:add_person]
+  before_action :is_authenticaded, only: [:create, :update, :destroy, :add_person, :remove_person]
+  before_action :set_movie, only: [:show, :update, :destroy, :add_person, :remove_person]
+  before_action :set_person, only: [:add_person, :remove_person]
   before_action :set_roles, only: [:add_person]
 
   # @route GET /api/v1/movies (api_v1_movies)
@@ -59,7 +59,20 @@ class Api::V1::MoviesController < ApplicationController
       end
       render json: {message: "Person added to the movie successfully" }, status: :created
     else
-      render json: {message: "This person already belongs to this movie" }, status: :created
+      render json: {message: "This person already belongs to this movie" }, status: :unprocessable_entity
+    end
+  end
+
+  # @route DELETE /api/v1/movies/:id/remove_person
+  def remove_person
+    # checks if person belongs to this movie
+    movie = @movie.movie_people.where(person: @person).exists?
+    if movie
+      @person.person_roles.where(movie: @movie).delete_all
+      @movie.people.delete(@person)
+      render json: {message: "Person removed from the movie successfully" }, status: :created
+    else
+      render json: {message: "This person doesn't belongs to this movie" }, status: :unprocessable_entity
     end
   end
 

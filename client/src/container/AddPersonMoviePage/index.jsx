@@ -68,7 +68,7 @@ function AddPersonMoviePage() {
       })
   }
 
-  const handleChange = event => {
+  const handleRole = event => {
     setRolesChecked({
       ...rolesChecked,
       [event.target.value]: event.target.checked,
@@ -140,7 +140,7 @@ function AddPersonMoviePage() {
                     <Checkbox
                       name={role.name}
                       value={role.id}
-                      onChange={handleChange}
+                      onChange={handleRole}
                     />
                   }
                   label={role.name}

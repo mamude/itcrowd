@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   Button,
@@ -8,14 +8,36 @@ import {
   Chip,
   Grid,
   Typography,
+  Snackbar,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { getToken } from '../../utils/secureLocal'
+import api from '../../utils/request'
 import { CardPerson } from './styles'
 
 // eslint-disable-next-line react/prop-types
 function Casting({ data }) {
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState()
+  const { id } = useParams()
+
+  const handleRemovePerson = async values => {
+    const token = getToken()
+    const body = { movie: { person: values } }
+    await api
+      .delete(`/movies/${id}/remove_person`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: body,
+      })
+      .catch(err => {
+        setOpen(true)
+        setMessage(err.response.data.message)
+      })
+  }
+
   return (
     <Box flexGrow={1}>
+      <Snackbar open={open} message={message} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={10}>
@@ -55,6 +77,12 @@ function Casting({ data }) {
                       to={`/people/${row.person.id}`}
                     >
                       Person Info
+                    </Button>
+                    <Button
+                      size="small"
+                      onClick={() => handleRemovePerson(row.person.id)}
+                    >
+                      Remove Person
                     </Button>
                   </CardActions>
                 </CardPerson>

@@ -16,11 +16,10 @@ function DeleteMoviePage() {
   const history = useHistory()
   const { id } = useParams()
 
-  const deleteMovie = async values => {
+  const deleteMovie = async () => {
     const token = getToken()
     await api
       .delete(`/movies/${id}`, {
-        data: values,
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

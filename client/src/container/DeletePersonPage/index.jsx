@@ -16,11 +16,10 @@ function DeletePersonPage() {
   const history = useHistory()
   const { id } = useParams()
 
-  const deletePerson = async values => {
+  const deletePerson = async () => {
     const token = getToken()
     await api
       .delete(`/people/${id}`, {
-        data: values,
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

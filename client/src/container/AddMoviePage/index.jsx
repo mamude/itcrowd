@@ -44,11 +44,7 @@ function AddMoviePage() {
   return (
     <UserConsumer>
       <MainWrapper title="Add Movie">
-        <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          open={open}
-          message={message}
-        />
+        <Snackbar open={open} message={message} />
         <Formik
           validationSchema={schema}
           initialValues={initialValues}
