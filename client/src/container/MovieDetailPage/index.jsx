@@ -110,7 +110,7 @@ function MovieDetailPage() {
         </Box>
       </MainWrapper>
       <MainWrapper title="Casting">
-        <Casting data={data} />
+        <Casting data={data} state={setData} />
       </MainWrapper>
     </>
   )

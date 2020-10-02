@@ -16,7 +16,7 @@ import api from '../../utils/request'
 import { CardPerson } from './styles'
 
 // eslint-disable-next-line react/prop-types
-function Casting({ data }) {
+function Casting({ data, state }) {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState()
   const { id } = useParams()
@@ -28,6 +28,10 @@ function Casting({ data }) {
       .delete(`/movies/${id}/remove_person`, {
         headers: { Authorization: `Bearer ${token}` },
         data: body,
+      })
+      .then(() => {
+        const casting = data.casting.filter(row => row.person.id !== values)
+        state({ ...data, casting })
       })
       .catch(err => {
         setOpen(true)
