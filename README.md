@@ -1,6 +1,6 @@
 # IT Crowd - RoR+React Challenge
 
-### Docker & Docker Composer Instalation
+### Docker & Docker Composer Installation
 
 - https://docs.docker.com/engine/install/
 - https://docs.docker.com/compose/install/
