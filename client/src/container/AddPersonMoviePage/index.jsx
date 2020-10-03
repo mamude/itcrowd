@@ -34,7 +34,7 @@ function AddPersonMoviePage() {
       })
     }
     async function searchPeople() {
-      const body = { person: { search: person } }
+      const body = { person: { search: inputValue } }
       await api.post('/people/autocomplete', body).then(response => {
         setOptions(response.data.people)
       })
